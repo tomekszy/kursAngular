@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-// import { User } from '../models/User';
-import { MatButtonModule, MatCheckboxModule } from '@angular/material';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { DataService } from '../services/data.service';
 
 @Component({
   selector: 'app-users',
@@ -9,74 +8,50 @@ import { MatButtonModule, MatCheckboxModule } from '@angular/material';
 })
 export class UsersComponent implements OnInit {
 
+
+  user: User = {
+    firstName: '',
+    lastName: '',
+    email: ''
+  };
   users: User[];
   showExtended: boolean = true;
   loaded: boolean = false;
-  enableAdd: boolean = true;
+  enableAdd: boolean = false;
   isSuccess: boolean = true;
+  showUserForm: boolean = false;
+  @ViewChild('userForm') form: any;
+  data: any;
 
+  constructor(private dataService: DataService) {
 
-  constructor() { }
+  }
 
   ngOnInit() {
-    setTimeout(() => {
-      this.users = [
-        {
-          firstName: 'John',
-          lastName: 'Doe',
-          age: 30,
-          address: {
-            street: '50 Main st.',
-            city: 'Boston',
-            state: 'MA'
-          },
-          isActive: true,
-          registered: new Date('01/02/2018 08:30:00'),
-          hide: true
-        },
-        {
-          firstName: 'Tomek',
-          lastName: 'Szymanski',
-          age: 33,
-          address: {
-            street: 'Marynarzy',
-            city: 'Sopot',
-            state: 'PL'
-          },
-          registered: new Date('03/11/2018 08:30:00'),
-          hide: true
-        },
-        {
-          firstName: 'Ktoś',
-          lastName: 'Jeszcze',
-          // age: 25,
-          // address: {
-          //   street: 'Ulica',
-          //   city: 'Miasto',
-          //   state: 'Kraj'
-          // }
-          isActive: true,
-          registered: new Date('05/02/2016 07:30:00'),
-          hide: true
-        },
-      ];
 
+    this.dataService.getData().subscribe(data => {
+      console.log(data);
+    })
+
+    this.dataService.getUsers().subscribe(users => {
+      this.users = users;
       this.loaded = true;
-    }, 20);
+    });
 
   }
 
-  addUser(user: User) {
-    this.users.push(user);
+  onSubmit({ value, valid }: { value: User, valid: boolean }) {
+    if (!valid) {
+      console.log('not valid');
+    } else {
+      value.isActive = true;
+      value.registered = new Date();
+      value.hide = true;
+      this.dataService.addUser(value);
+      this.form.reset();
+    }
   }
 
-
-  setButton() {
-    this.showExtended ? this.showExtended = false : this.showExtended = true;
-  }
-  // toggleHide(user : User) {
-  //   user.hide = !user.hide;
-  // }
 }
 
 
