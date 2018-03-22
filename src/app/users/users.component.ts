@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DataService } from '../services/data.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-users',
@@ -7,7 +8,6 @@ import { DataService } from '../services/data.service';
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit {
-
 
   user: User = {
     firstName: '',
@@ -23,7 +23,7 @@ export class UsersComponent implements OnInit {
   @ViewChild('userForm') form: any;
   data: any;
 
-  constructor(private dataService: DataService) {
+  constructor(private dataService: DataService, private userService: UserService) {
 
   }
 
