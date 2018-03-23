@@ -16,6 +16,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { PostFormComponent } from './post-form/post-form.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './home/home.component';
+import { PostComponent } from './post/post.component';
+import { NotfoundComponent } from './notfound/notfound.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,8 @@ import { HomeComponent } from './home/home.component';
     PostsComponent,
     PostFormComponent,
     HomeComponent,
+    PostComponent,
+    NotfoundComponent,
 
   ],
   imports: [
